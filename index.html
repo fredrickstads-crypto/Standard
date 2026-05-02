@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mama's Kitchen | Fresh Meals in Kampala</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --primary: #e63939;
+      --dark: #1d1d1d;
+      --light: #f8f9fa;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: radial-gradient(circle, brown,orange);
+      min-height: 100vh;
+    }
+
+    /* Header */
+    header {
+      background-color: var(--dark);
+      color: white;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 26px;
+      font-weight: bold;
+      color: var(--primary);
+    }
+
+    .nav-links {
+      display: none;
+      gap: 30px;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    .hamburger {
+      font-size: 28px;
+      cursor: pointer;
+      display: block;
+      transition: transform 0.3s;
+    }
+
+    .hamburger:hover {
+      transform: scale(1.1);
+    }
+
+    /* Mobile Menu */
+    .mobile-menu {
+      position: fixed;
+      top: 65px;
+      left: 0;
+      width: 100%;
+      background-color: var(--dark);
+      display: none;
+      flex-direction: column;
+      padding: 20px 0;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      z-index: 999;
+    }
+
+    .mobile-menu.active {
+      display: flex;
+    }
+
+    .mobile-menu a {
+      color: white;
+      text-decoration: none;
+      padding: 15px 25px;
+      font-size: 1.1rem;
+      transition: all 0.3s;
+    }
+
+    .mobile-menu a:hover {
+      background-color: rgba(230, 57, 57, 0.2);
+      padding-left: 35px;
+    }
+
+    /* Hero */
+    .hero {
+      height: 100vh;
+      background-image : url("hero.jpg");
+      background-size : cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+      margin-top: 65px;
+    }
+
+    .hero-content {
+      max-width: 800px;
+      padding: 20px;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 15px;
+      text-shadow: 0 4px 15px rgba(0,0,0,0.7);
+    }
+
+    .hero p {
+      font-size: 1.3rem;
+      margin-bottom: 30px;
+      opacity: 0.95;
+    }
+
+    .cta-button {
+      background-color: var(--primary);
+      color: white;
+      padding: 16px 35px;
+      border: none;
+      border-radius: 50px;
+      font-size: 1.15rem;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      box-shadow: 0 6px 20px rgba(230, 57, 57, 0.4);
+    }
+
+    .cta-button:hover {
+      background-color: #c11212;
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 10px 30px rgba(230, 57, 57, 0.5);
+    }
+
+    /* Sections */
+    section {
+      padding: 80px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 2.2rem;
+      margin-bottom: 50px;
+      color: var(--dark);
+    }
+
+    /* Why Choose Us */
+    .why-choose {
+      background: rgba(0,0,0,0.08);
+    }
+
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+    }
+
+    .why-card {
+      text-align: center;
+      padding: 25px 15px;
+    }
+
+    /* Food Gallery Slider */
+    .slider {
+      position: relative;
+      max-width: 1000px;
+      margin: 0 auto;
+      overflow: hidden;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+
+    .slides {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+
+    .slide {
+      min-width: 100%;
+      height: 450px;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .slider-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.6);
+      color: white;
+      border: none;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      font-size: 24px;
+      cursor: pointer;
+      z-index: 10;
+      transition: all 0.3s;
+    }
+
+    .slider-btn:hover {
+      background: var(--primary);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .prev { left: 15px; }
+    .next { right: 15px; }
+
+    /* Popular Meals */
+    .meals-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 25px;
+    }
+
+    .meal-card {
+      background: black;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+      transition: all 0.4s ease;
+    }
+
+    .meal-card:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 0 25px rgba(255, 255, 255, 0.6);
+    }
+
+    .meal-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      transition: transform 0.4s;
+    }
+
+    .meal-card:hover img {
+      transform: scale(1.08);
+    }
+
+    .meal-info {
+      padding: 18px;
+      text-align: center;
+      color : orange;
+    }
+
+    /* Testimonials */
+    .testimonials {
+      background:dark-orange;
+    }
+
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+    }
+
+    .testimonial-card {
+      background: linear-gradient(to right , orange , yellow);
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.07);
+      transition: transform 0.3s;
+    }
+
+    .testimonial-card:hover {
+      transform: translateY(-5px);
+    }
+
+    /* Floating WhatsApp */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background-color: #25D366;
+      color: white;
+      width: 65px;
+      height: 65px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      box-shadow: 0 5px 20px rgba(37, 211, 102, 0.4);
+      z-index: 2000;
+      text-decoration: none;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .whatsapp-float:hover {
+      transform: scale(1.15);
+      box-shadow: 0 8px 25px rgba(37, 211, 102, 0.6);
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-12px); }
+    }
+
+    footer {
+      background-color: var(--dark);
+      color: white;
+      text-align: center;
+      padding: 50px 20px;
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2.4rem; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <nav>
+      <div class="logo">Mama's Kitchen</div>
+      <div class="nav-links">
+        <a href="#meals">Menu</a>
+        <a href="#testimonials">Reviews</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="hamburger" id="hamburger">☰</div>
+    </nav>
+  </header>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="#meals">Our Menu</a>
+    <a href="#testimonials">Customer Reviews</a>
+    <a href="#contact">Contact & Order</a>
+    <a href="https://wa.me/256758991506" target="_blank">Order on WhatsApp</a>
+  </div>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Delicious Meals Delivered Fast</h1>
+      <p>Authentic Ugandan food • Takeaway & Delivery in Kampala</p>
+      <button class="cta-button" onclick="document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })">
+        Order via WhatsApp
+      </button>
+    </div>
+  </section>
+
+  <!-- Popular Meals -->
+  <section id="meals">
+    <h2>Our Popular Meals</h2>
+    <div class="meals-grid">
+      <div class="meal-card">
+        <img src="c1.jpg" alt="Matooke">
+        <div class="meal-info">
+          <h3>Matooke with Groundnut Sauce</h3>
+          <p>UGX 12,000</p>
+        </div>
+      </div>
+      <div class="meal-card">
+        <img src="chips.jpg" alt="Chicken">
+        <div class="meal-info">
+          <h3>Grilled Chicken + Chips</h3>
+          <p>UGX 15,000</p>
+        </div>
+      </div>
+      <div class="meal-card">
+        <img src="pilau.jpg" alt="Pilau">
+        <div class="meal-info">
+          <h3>Beef Pilau</h3>
+          <p>UGX 13,000</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Us -->
+  <section class="why-choose">
+    <h2>Why Choose Mama's Kitchen?</h2>
+    <div class="why-grid">
+      <div class="why-card">
+        <h3>🍲 Fresh Ingredients Daily</h3>
+        <p>We prepare every meal with fresh, locally sourced ingredients every morning.</p>
+      </div>
+      <div class="why-card">
+        <h3>🚀 Fast & Reliable Delivery</h3>
+        <p>Order now and get your hot meal delivered within 30-45 minutes in Kampala.</p>
+      </div>
+      <div class="why-card">
+        <h3>💰 Honest & Affordable Prices</h3>
+        <p>Quality Ugandan meals at prices that won't break the bank.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Visit Us -->
+  <section>
+    <h2>Visit Us or Order</h2>
+    <div style="text-align: center; max-width: 700px; margin: 0 auto; font-size: 1.1rem;">
+      <p><strong>📍 Location:</strong> Ntinda, Kampala (Near Shell Petrol Station)</p>
+      <p><strong>🕒 Opening Hours:</strong> Monday - Sunday | 7:00 AM - 10:00 PM</p>
+      <p><strong>📞 Call / WhatsApp:</strong> <strong style="color: var(--primary);">0758 991 506</strong></p>
+    </div>
+  </section>
+
+  <!-- Food Gallery Slider -->
+  <section>
+    <h2>Food Gallery</h2>
+    <div class="slider">
+      <div class="slides" id="slides">
+        <div class="slide" style="background-image: url('grill.jpg')"></div>
+        <div class="slide" style="background-image: url('card2.jpg')"></div>
+        <div class="slide" style="background-image: url('heros.jpg')"></div>
+      </div>
+      <button class="slider-btn prev" onclick="prevSlide()">‹</button>
+      <button class="slider-btn next" onclick="nextSlide()">›</button>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials" id="testimonials">
+    <h2>What Our Customers Say</h2>
+    <div class="testimonial-grid">
+      <div class="testimonial-card">
+        <p>"The food is always fresh and delivered hot. Best matooke in town!"</p>
+        <strong>— Sarah N., Ntinda</strong>
+      </div>
+      <div class="testimonial-card">
+        <p>"Fast service and generous portions. I order almost every week."</p>
+        <strong>— John M., Makerere</strong>
+      </div>
+      <div class="testimonial-card">
+        <p>"Affordable prices and tasty food. Highly recommended!"</p>
+        <strong>— Aisha K., Kisaasi</strong>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <h2>Place Your Order Now</h2>
+    <p style="text-align: center; font-size: 1.2rem; margin-bottom: 30px;">
+      Call or WhatsApp us<br>
+      <strong style="color: var(--primary); font-size: 1.5rem;">0758 991 506</strong>
+    </p>
+    
+    <div style="text-align: center;">
+      <a href="https://wa.me/256758991506?text=Hello%20Mama's%20Kitchen%2C%20I%20want%20to%20order%20food" 
+         target="_blank" 
+         class="cta-button" 
+         style="text-decoration: none; display: inline-block;">
+        Order on WhatsApp
+      </a>
+    </div>
+  </section>
+
+  <!-- Floating WhatsApp Button -->
+  <a href="https://wa.me/256758991506?text=Hello%2C%20I%20want%20to%20order%20from%20your%20restaurant" 
+     class="whatsapp-float" 
+     target="_blank">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+  <footer>
+    <p>&copy; 2026 Mama's Kitchen - Kampala, Uganda</p>
+    <p>Fresh food • Fast delivery • Affordable prices</p>
+  </footer>
+
+  <script>
+    // Hamburger Menu
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    hamburger.addEventListener('click', () => {
+      mobileMenu.classList.toggle('active');
+      hamburger.textContent = mobileMenu.classList.contains('active') ? '✕' : '☰';
+    });
+
+    // Simple Slider
+    let currentSlide = 0;
+    const slides = document.getElementById('slides');
+    const totalSlides = 3;
+
+    function showSlide(index) {
+      slides.style.transform = `translateX(-${index * 100}%)`;
+    }
+
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % totalSlides;
+      showSlide(currentSlide);
+    }
+
+    function prevSlide() {
+      currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+      showSlide(currentSlide);
+    }
+
+    // Auto slide every 5 seconds
+    setInterval(nextSlide, 5000);
+
+    console.log("%cMama's Kitchen landing page loaded successfully!", "color: #e63939; font-weight: bold");
+  </script>
+</body>
+</html>
